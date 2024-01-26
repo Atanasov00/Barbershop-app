@@ -1,5 +1,9 @@
 package com.example.barbershop.Activities;
 
+import static Utils.Utilities.REQUEST_IMAGE_CAPTURE;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -7,12 +11,14 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.barbershop.Fragments.HomeFragment;
 import com.example.barbershop.Fragments.MapFragment;
 import com.example.barbershop.Fragments.ProfileFragment;
 import com.example.barbershop.Fragments.RecensionFragment;
 import com.example.barbershop.R;
+import com.example.barbershop.ViewModel.AddViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -21,7 +27,7 @@ import Utils.Utilities;
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
-
+    private AddViewModel addViewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,9 @@ public class HomeActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             Utilities.insertHomeActivityFragment(this, new HomeFragment(), HomeFragment.class.getSimpleName());
         }
+
+        addViewModel = new ViewModelProvider(this).get(AddViewModel.class);
+
         AppCompatActivity activity = this;
         navigationView = findViewById(R.id.bottomAppBar);
         navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -62,5 +71,15 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            addViewModel.setImageBitmap(imageBitmap);
+        }
     }
 }
