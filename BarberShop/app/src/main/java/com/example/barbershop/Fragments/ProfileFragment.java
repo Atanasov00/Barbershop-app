@@ -1,5 +1,6 @@
 package com.example.barbershop.Fragments;
 
+import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -46,6 +47,13 @@ public class ProfileFragment extends Fragment {
 
         if(activity != null) {
             Utilities.setUpToolbar((AppCompatActivity) activity, getString(R.string.profile));
+
+            textView1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utilities.insertHomeActivityFragment((AppCompatActivity) activity, new AddReviewFragment(), AddReviewFragment.class.getSimpleName());
+                }
+            });
 
         }
 

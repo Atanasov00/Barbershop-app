@@ -18,6 +18,7 @@
     <string name="home_item">Home</string>
     <string name="review_item">Recensioni</string>
     <string name="profile_item">Profilo</string>
+    <string name="add_review_title">Aggiunta recensione</string>
     <string name="position_item">Posizione</string>
     <string name="personal_date_title">Dati personali</string>
     <string name="name_text">Nome:</string>
