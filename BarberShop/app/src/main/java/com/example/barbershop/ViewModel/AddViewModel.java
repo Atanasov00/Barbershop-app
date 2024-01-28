@@ -10,9 +10,13 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.barbershop.Database.AppointmentsRepository;
 import com.example.barbershop.Database.ProfileInformationRepository;
+import com.example.barbershop.Database.ServiceRepository;
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.Appointments;
 import com.example.barbershop.Tables.ProfileInformation;
+import com.example.barbershop.Tables.Service;
 
 import java.text.ParseException;
 
@@ -24,6 +28,11 @@ import Utils.Utilities;
 public class AddViewModel extends AndroidViewModel {
 
     private final ProfileInformationRepository repository;
+
+    private final AppointmentsRepository appointmentsRepository;
+
+    private final ServiceRepository serviceRepository;
+
     private final MutableLiveData<Bitmap> imageBitmap = new MutableLiveData<>();
 
     private final Application application;
@@ -33,6 +42,8 @@ public class AddViewModel extends AndroidViewModel {
         this.application = application;
         initializeBitmap();
         repository = new ProfileInformationRepository(application);
+        appointmentsRepository = new AppointmentsRepository(application);
+        serviceRepository = new ServiceRepository(application);
     }
 
     /**
@@ -62,4 +73,11 @@ public class AddViewModel extends AndroidViewModel {
         repository.addProfile(profile);
     }
 
+    public void addServices(Service service) {
+        serviceRepository.addService(service);
+    }
+
+    public void addAppointment(Appointments appointment) {
+        appointmentsRepository.addAppointment(appointment);
+    }
 }

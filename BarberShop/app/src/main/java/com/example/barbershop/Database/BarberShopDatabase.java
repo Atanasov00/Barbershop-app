@@ -1,22 +1,27 @@
 package com.example.barbershop.Database;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.barbershop.Tables.Appointments;
 import com.example.barbershop.Tables.ProfileInformation;
+import com.example.barbershop.Tables.Service;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ProfileInformation.class}, version = 8)
+@Database(entities = {ProfileInformation.class, Appointments.class, Service.class}, version = 9)
 public abstract class BarberShopDatabase extends RoomDatabase {
 
     public abstract ProfileInformationDAO profileInformationDAO();
 
     public abstract ServiceDAO serviceDAO();
+
+    public abstract AppointmentsDAO appointmentsDAO();
 
     private static volatile BarberShopDatabase INSTANCE;
 

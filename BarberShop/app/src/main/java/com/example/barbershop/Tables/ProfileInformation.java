@@ -29,7 +29,7 @@ public class ProfileInformation {
     @ColumnInfo(name = "account_surname")
     private final String surname;
 
-    public ProfileInformation(final String email, final String password, final String name, final String surname){
+    public ProfileInformation(@NonNull final String email, @NonNull final String password, @NonNull final String name, @NonNull final String surname){
         this.email = email;
         this.password = password;
         this.name = name;
