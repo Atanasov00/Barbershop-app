@@ -16,6 +16,7 @@ public abstract class BarberShopDatabase extends RoomDatabase {
 
     public abstract ProfileInformationDAO profileInformationDAO();
 
+    public abstract ServiceDAO serviceDAO();
 
     private static volatile BarberShopDatabase INSTANCE;
 
