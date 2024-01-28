@@ -14,6 +14,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions{
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation":"$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -42,4 +48,8 @@ dependencies {
     implementation 'org.mapsforge:mapsforge-core:0.12.0'
     implementation 'org.mapsforge:mapsforge-map-android:0.12.0'
 
+
+
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
 }

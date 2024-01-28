@@ -10,7 +10,12 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.barbershop.Database.ProfileInformationRepository;
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.ProfileInformation;
+
+import java.text.ParseException;
+
 import Utils.Utilities;
 
 /**
@@ -18,14 +23,16 @@ import Utils.Utilities;
  */
 public class AddViewModel extends AndroidViewModel {
 
+    private final ProfileInformationRepository repository;
     private final MutableLiveData<Bitmap> imageBitmap = new MutableLiveData<>();
 
     private final Application application;
 
-    public AddViewModel(@NonNull Application application) {
+    public AddViewModel(@NonNull Application application) throws ParseException {
         super(application);
         this.application = application;
         initializeBitmap();
+        repository = new ProfileInformationRepository(application);
     }
 
     /**
@@ -33,7 +40,7 @@ public class AddViewModel extends AndroidViewModel {
      */
     private void initializeBitmap() {
         Drawable drawable = ResourcesCompat.getDrawable(application.getResources(),
-                R.drawable.ic_launcher_foreground, application.getTheme());
+                R.drawable.ic_haircut4, application.getTheme());
         Bitmap bitmap = Utilities.drawableToBitmap(drawable);
 
         imageBitmap.setValue(bitmap);
@@ -50,4 +57,9 @@ public class AddViewModel extends AndroidViewModel {
     public MutableLiveData<Bitmap> getImageBitmap() {
         return imageBitmap;
     }
+
+    public void addProfile(ProfileInformation profile) {
+        repository.addProfile(profile);
+    }
+
 }

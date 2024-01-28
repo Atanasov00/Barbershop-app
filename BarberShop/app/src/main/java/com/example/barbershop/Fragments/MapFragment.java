@@ -66,6 +66,7 @@ public class MapFragment extends Fragment {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map = null;
 
+    private IMapController mapController;
     private MyLocationNewOverlay mLocationOverlay;
     private boolean requestingLocationUpdates = false;
 
@@ -95,7 +96,8 @@ public class MapFragment extends Fragment {
 
             map = (MapView) view.findViewById(R.id.map);
             map.setTileSource(TileSourceFactory.MAPNIK);
-
+            mapController = map.getController();
+            mapController.setZoom(19.5);
 
 
 
@@ -204,8 +206,7 @@ public class MapFragment extends Fragment {
 
                 //Update UI with the location data
                 Location location = locationResult.getLastLocation();
-                IMapController mapController = map.getController();
-                mapController.setZoom(19.5);
+
                 System.out.println(locationResult.getLastLocation().getLatitude() +"  " +locationResult.getLastLocation().getLongitude());
                 GeoPoint startPoint = new GeoPoint(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 mapController.setCenter(startPoint);
@@ -275,7 +276,4 @@ public class MapFragment extends Fragment {
                     .show();
         }
     }
-
-
-
 }

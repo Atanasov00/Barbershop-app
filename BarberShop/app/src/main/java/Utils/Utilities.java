@@ -1,6 +1,9 @@
 package Utils;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 
 import androidx.appcompat.app.ActionBar;
@@ -17,6 +20,27 @@ import com.example.barbershop.R;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class Utilities {
+
+    public static String email = null;
+    public static String password = null;
+
+    public static void setEmail(String email) {
+        Utilities.email = email;
+    }
+
+    public static void setPassword(String password) {
+        Utilities.password = password;
+    }
+
+    public static String getEmail() {
+        return email;
+    }
+
+    public static String getPassword() {
+        return password;
+    }
+
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public static void insertMainActivityFragment(AppCompatActivity activity, Fragment fragment, String tag){
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
@@ -51,6 +75,18 @@ public class Utilities {
             activity.getSupportActionBar().setTitle(title);
             activity.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#BF7E19")));
         }
+    }
+    public static Bitmap drawableToBitmap(Drawable drawable){
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
 

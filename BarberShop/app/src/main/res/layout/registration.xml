@@ -44,6 +44,7 @@
             app:layout_constraintTop_toBottomOf="@id/signupTitle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/placeR_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/white"
@@ -71,6 +72,7 @@
             app:layout_constraintTop_toBottomOf="@id/name">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/placeR_surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Cognome"
@@ -97,6 +99,7 @@
             app:layout_constraintTop_toBottomOf="@id/surname">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/placeR_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="E-Mail"
@@ -127,6 +130,7 @@
 
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/placeR_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
