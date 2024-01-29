@@ -18,6 +18,7 @@ import com.example.barbershop.Fragments.MapFragment;
 import com.example.barbershop.Fragments.ProfileFragment;
 import com.example.barbershop.Fragments.RecensionFragment;
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.Recension;
 import com.example.barbershop.Tables.Service;
 import com.example.barbershop.ViewModel.AddViewModel;
 import com.example.barbershop.ViewModel.ListViewModel;
@@ -58,6 +59,13 @@ public class HomeActivity extends AppCompatActivity {
                 }
             } catch (Exception e){
                 e.printStackTrace();
+            }
+        });
+
+        listViewModel.getRecensionInfo().observe(this, recensions -> {
+            if(recensions.size() == 1){
+                addViewModel.addRecension(new Recension(1,"29/01/2024", 3,
+                        "Descrizione di prova2", "ic_haircut4", "prova prova"));
             }
         });
 

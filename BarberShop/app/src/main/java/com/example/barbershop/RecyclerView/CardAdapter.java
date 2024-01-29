@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barbershop.CardItem;
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.Recension;
+import com.example.barbershop.ViewModel.ListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +25,24 @@ import java.util.List;
 /**
  * Adapter linked to the RecyclerView of the homePage
  */
-public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements Filterable {
+public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
-    private List<CardItem> cardItemList;
+    private List<Recension> recensionsList;
 
     private Activity activity;
 
     private OnItemListener listener;
 
-    private List<CardItem> cardItemListNotFiltered;
+    private List<Recension> cardItemListNotFiltered;
 
-    public CardAdapter(OnItemListener listener, List<CardItem> cardItemList, Activity activity) {
+    ListViewModel listViewModel;
+
+    public CardAdapter(OnItemListener listener, List<Recension> recensionsList, Activity activity) {
         this.listener = listener;
-        this.cardItemList = new ArrayList<>(cardItemList);
-        this.cardItemListNotFiltered = new ArrayList<>(cardItemList);
+        this.recensionsList = new ArrayList<>(recensionsList);
+        this.cardItemListNotFiltered = new ArrayList<>(recensionsList);
         this.activity = activity;
+
     }
 
     /**
@@ -67,8 +72,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
      */
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
-        CardItem currentCardItem = cardItemList.get(position);
-        String imagePath = currentCardItem.getImageResource();
+        Recension currentRecension = recensionsList.get(position);
+        String imagePath = currentRecension.getImage();
 
         if (imagePath.contains("ic_")){
             Drawable drawable = AppCompatResources.getDrawable(activity, activity.getResources()
@@ -76,77 +81,30 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> implements
             holder.placeImageView.setImageDrawable(drawable);
         }
 
-        holder.ratingBarView.setRating(currentCardItem.getRating());
-        holder.placeTextView.setText(currentCardItem.getPlaceName());
-        holder.dateTextView.setText(currentCardItem.getDate());
+        holder.ratingBarView.setRating(currentRecension.getRating());
+        holder.placeTextView.setText(currentRecension.getName());
+        holder.dateTextView.setText(currentRecension.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return cardItemList.size();
+        return recensionsList.size();
     }
 
-    @Override
-    public Filter getFilter() {
-        return cardFilter;
-    }
 
-    private final Filter cardFilter = new Filter() {
-        /**
-         * Called to filter the data according to the constraint
-         * @param constraint constraint used to filtered the data
-         * @return the result of the filtering
-         */
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<CardItem> filteredList = new ArrayList<>();
 
-            //if you have no constraint --> return the full list
-            if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(cardItemListNotFiltered);
-            } else {
-                //else apply the filter and return a filtered list
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (CardItem item : cardItemListNotFiltered) {
-                    if (item.getPlaceDescription().toLowerCase().contains(filterPattern) ||
-                            item.getPlaceName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item);
-                    }
-                }
-            }
 
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
 
-        /**
-         * Called to publish the filtering results in the user interface
-         * @param constraint constraint used to filter the data
-         * @param results the result of the filtering
-         */
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<CardItem> filteredList = new ArrayList<>();
-            List<?> result = (List<?>) results.values;
-            for (Object object : result) {
-                if (object instanceof CardItem) {
-                    filteredList.add((CardItem) object);
-                }
-            }
-
-            //warn the adapter that the data are changed after the filtering
-            updateCardListItems(filteredList);
-        }
-    };
-
-    public void updateCardListItems(List<CardItem> filteredList) {
+    public void updateCardListItems(List<Recension> filteredList) {
         final CardItemDiffCallback diffCallback =
-                new CardItemDiffCallback(this.cardItemList, filteredList);
+                new CardItemDiffCallback(this.recensionsList, filteredList);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
-        this.cardItemList.clear();
-        this.cardItemList.addAll(filteredList);
+        this.recensionsList.clear();
+        this.recensionsList.addAll(filteredList);
         diffResult.dispatchUpdatesTo(this);
     }
+
+    public Recension getItemSelected(int position) { return recensionsList.get(position); }
+
 }

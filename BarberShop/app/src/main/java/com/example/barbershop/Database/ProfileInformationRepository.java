@@ -16,6 +16,7 @@ public class ProfileInformationRepository {
     private final LiveData<List<ProfileInformation>> profileInformationList;
 
     private int profileID;
+    private ProfileInformation user;
 
     public ProfileInformationRepository(Application application) throws ParseException {
         BarberShopDatabase db = BarberShopDatabase.getDatabase(application);
@@ -43,6 +44,17 @@ public class ProfileInformationRepository {
                 profileInformationDAO.updatePassword(newPassword, id);
             }
         });
+    }
+
+    public ProfileInformation getUserByID(int id){
+
+        BarberShopDatabase.executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                user = profileInformationDAO.getUserByID(id);
+            }
+        });
+        return user;
     }
 
 }

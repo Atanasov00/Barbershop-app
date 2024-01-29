@@ -83,6 +83,7 @@
             android:inputType="textPassword"
             app:hintTextAppearance="@style/HintText"
             app:passwordToggleEnabled="true"
+
             app:passwordToggleTint="@color/brown_900"
             android:hint="@string/string_pwd"
             android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.Outlined"
@@ -95,7 +96,7 @@
                 android:id="@+id/place_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text|textNoSuggestions"
+                android:inputType="textPassword"
                 android:textColor="@color/white"></com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
 

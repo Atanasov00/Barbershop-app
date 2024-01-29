@@ -21,16 +21,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barbershop.R;
+import com.example.barbershop.RecyclerView.Appointments.CardAdapter;
+import com.example.barbershop.Tables.Appointments;
 import com.example.barbershop.ViewModel.AddViewModel;
+import com.example.barbershop.ViewModel.ListViewModel;
+
+import java.util.List;
 
 import Utils.Utilities;
 
 public class ProfileFragment extends Fragment {
 
+    private CardAdapter adapter;
     private int id;
     private TextView placeName;
     private TextView placeSurname;
@@ -56,12 +64,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView textView1 = view.findViewById(R.id.textViewInsert1);
-        TextView textView2 = view.findViewById(R.id.textViewInsert2);
+       //TextView textView1 = view.findViewById(R.id.textViewInsert1);
+        //TextView textView2 = view.findViewById(R.id.textViewInsert2);
         TextView textView = view.findViewById(R.id.updatePassword);
         textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        textView1.setPaintFlags(textView1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        textView2.setPaintFlags(textView2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        //textView1.setPaintFlags(textView1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        //textView2.setPaintFlags(textView2.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 
         placeName = view.findViewById(R.id.placeTextNameProfile);
@@ -74,6 +82,7 @@ public class ProfileFragment extends Fragment {
 
         if(activity != null) {
             Utilities.setUpToolbar((AppCompatActivity) activity, getString(R.string.profile));
+            setRecyclerView(activity);
 
             SharedPreferences sharedPreferences = activity.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE);
             String pref_name = sharedPreferences.getString("name", "default");
@@ -93,6 +102,16 @@ public class ProfileFragment extends Fragment {
 
 
             addViewModel = new ViewModelProvider((ViewModelStoreOwner)activity).get(AddViewModel.class);
+
+            ListViewModel listViewModel = new ViewModelProvider(activity).get(ListViewModel.class);
+            listViewModel.getUserAppointments(id).observe(activity, new Observer<List<Appointments>>() {
+                @Override
+                public void onChanged(List<Appointments> appointments) {
+                    System.out.println(appointments.toString());
+                    adapter.setData(appointments);
+
+                }
+            });
 
             view.findViewById(R.id.updatePassword).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,12 +145,12 @@ public class ProfileFragment extends Fragment {
 
 
 
-            textView1.setOnClickListener(new View.OnClickListener() {
+            /*textView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Utilities.insertHomeActivityFragment((AppCompatActivity) activity, new AddReviewFragment(), AddReviewFragment.class.getSimpleName());
                 }
-            });
+            });*/
 
         }
 
@@ -152,4 +171,12 @@ public class ProfileFragment extends Fragment {
         addViewModel.updatePassword(psw, id);
         Toast.makeText(getContext(), "Password aggiornata!", Toast.LENGTH_SHORT).show();
     }
+
+    private void setRecyclerView(Activity activity) {
+        RecyclerView recyclerView = activity.findViewById(R.id.recycler_viewProfile);
+        recyclerView.setHasFixedSize(false);
+        adapter = new CardAdapter();
+        recyclerView.setAdapter(adapter);
+    }
+
 }

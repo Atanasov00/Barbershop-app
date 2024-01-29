@@ -30,6 +30,7 @@ import com.example.barbershop.R;
 import com.example.barbershop.Tables.ProfileInformation;
 import com.example.barbershop.ViewModel.ListViewModel;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import Utils.Utilities;
 
@@ -64,8 +65,11 @@ public class LoginFragment extends Fragment {
             Utilities.setUpToolbar((AppCompatActivity) activity, getString(R.string.app_name));
             TextView signUp = view.findViewById(R.id.idSignUp);
 
+
+
             email = view.findViewById(R.id.place_email);
             psw = view.findViewById(R.id.place_password);
+
 
             if(Utilities.getEmail() != null && Utilities.getPassword() != null){
                 email.setText(Utilities.getEmail());

@@ -27,6 +27,9 @@ public class AppointmentsRepository {
         return appointmentsList;
     }
 
+    public LiveData<List<Appointments>> getUserAppointments(int id){
+        return appointmentsDAO.getUserAppointments(id);
+    }
 
     public void addAppointment(Appointments appointment){
         BarberShopDatabase.executor.execute(new Runnable() {

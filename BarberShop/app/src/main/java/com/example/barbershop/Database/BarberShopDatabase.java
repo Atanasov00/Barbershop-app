@@ -9,12 +9,13 @@ import androidx.room.RoomDatabase;
 
 import com.example.barbershop.Tables.Appointments;
 import com.example.barbershop.Tables.ProfileInformation;
+import com.example.barbershop.Tables.Recension;
 import com.example.barbershop.Tables.Service;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ProfileInformation.class, Appointments.class, Service.class}, version = 9)
+@Database(entities = {ProfileInformation.class, Appointments.class, Service.class, Recension.class}, version = 10)
 public abstract class BarberShopDatabase extends RoomDatabase {
 
     public abstract ProfileInformationDAO profileInformationDAO();
@@ -22,6 +23,8 @@ public abstract class BarberShopDatabase extends RoomDatabase {
     public abstract ServiceDAO serviceDAO();
 
     public abstract AppointmentsDAO appointmentsDAO();
+
+    public abstract RecensionDAO recensionDAO();
 
     private static volatile BarberShopDatabase INSTANCE;
 

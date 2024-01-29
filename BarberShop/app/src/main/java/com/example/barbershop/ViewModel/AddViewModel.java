@@ -12,10 +12,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.barbershop.Database.AppointmentsRepository;
 import com.example.barbershop.Database.ProfileInformationRepository;
+import com.example.barbershop.Database.RecensionRepository;
 import com.example.barbershop.Database.ServiceRepository;
 import com.example.barbershop.R;
 import com.example.barbershop.Tables.Appointments;
 import com.example.barbershop.Tables.ProfileInformation;
+import com.example.barbershop.Tables.Recension;
 import com.example.barbershop.Tables.Service;
 
 import java.text.ParseException;
@@ -33,6 +35,8 @@ public class AddViewModel extends AndroidViewModel {
 
     private final ServiceRepository serviceRepository;
 
+    private final RecensionRepository recensionRepository;
+
     private final MutableLiveData<Bitmap> imageBitmap = new MutableLiveData<>();
 
     private final Application application;
@@ -44,6 +48,7 @@ public class AddViewModel extends AndroidViewModel {
         repository = new ProfileInformationRepository(application);
         appointmentsRepository = new AppointmentsRepository(application);
         serviceRepository = new ServiceRepository(application);
+        recensionRepository = new RecensionRepository(application);
     }
 
     /**
@@ -79,6 +84,10 @@ public class AddViewModel extends AndroidViewModel {
 
     public void addAppointment(Appointments appointment) {
         appointmentsRepository.addAppointment(appointment);
+    }
+
+    public void addRecension(Recension recension) {
+        recensionRepository.addRecension(recension);
     }
 
     public void updatePassword(String newPassword, int id) {

@@ -26,4 +26,7 @@ public interface ProfileInformationDAO {
     @Query("UPDATE account SET account_password = :newPassword WHERE account_id = :id")
     void updatePassword(String newPassword, int id);
 
+    @Query("SELECT * FROM account WHERE account_id =:id")
+    ProfileInformation getUserByID(int id);
+
 }

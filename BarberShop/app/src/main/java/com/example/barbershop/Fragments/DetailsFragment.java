@@ -1,21 +1,40 @@
 package com.example.barbershop.Fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.Recension;
+import com.example.barbershop.ViewModel.ListViewModel;
 
 import Utils.Utilities;
 
 public class DetailsFragment extends Fragment {
+
+    private TextView placeTextName;
+    private TextView placeTextDate;
+    private TextView placeTextDescription;
+    private RatingBar placeRating;
+    private ImageView placeImage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +56,44 @@ public class DetailsFragment extends Fragment {
 
         if(activity != null) {
             Utilities.setUpToolbar((AppCompatActivity) activity, getString(R.string.details));
+
+            placeTextName = view.findViewById(R.id.place_name);
+            placeTextDate = view.findViewById(R.id.travel_date);
+            placeTextDescription = view.findViewById(R.id.place_description);
+            placeRating = view.findViewById(R.id.ratingBar);
+            placeImage = view.findViewById(R.id.place_image);
+
+            ListViewModel listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+            listViewModel.getItemSelected().observe(getViewLifecycleOwner(), new Observer<Recension>() {
+                @Override
+                public void onChanged(Recension recension) {
+                    placeTextName.setText(recension.getName());
+                    placeTextDate.setText(recension.getDate());
+                    placeTextDescription.setText(recension.getDescription());
+                    placeRating.setRating(recension.getRating());
+                    String image_path = recension.getImage();
+                    System.out.println(image_path);
+
+                    int resourceId = getResources().getIdentifier(image_path, "drawable", activity.getPackageName());
+
+                    if(resourceId != 0) {
+                        Drawable drawable = getResources().getDrawable(resourceId);
+                        placeImage.setImageDrawable(drawable);
+                    }
+
+                    /*if (image_path.contains("ic_")){
+                        Drawable drawable = ResourcesCompat.getDrawable(activity.getResources(),
+                                R.drawable.ic_haircut1, activity.getTheme());
+                        placeImage.setImageDrawable(drawable);
+                    } else {
+                        Bitmap bitmap = Utilities.getImageBitmap(activity, Uri.parse(image_path));
+                        if (bitmap != null){
+                            placeImageView.setImageBitmap(bitmap);
+                            placeImageView.setBackgroundColor(Color.WHITE);
+                        }
+                    }*/
+                }
+            });
 
         }
     }

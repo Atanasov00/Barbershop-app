@@ -27,6 +27,7 @@ import com.example.barbershop.ViewModel.ListViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +51,8 @@ public class HomeFragment extends Fragment {
     private AutoCompleteTextView autoCompleteTextViewService;
     private AutoCompleteTextView autoCompleteTextViewTime;
 
+    //private TextInputLayout textInputLayoutTime;
+
     private ArrayAdapter<String> adapterItems;
 
     private int userID;
@@ -64,6 +67,9 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //textInputLayoutTime = inflater.inflate(R.layout.home, container, false).findViewById(R.id.input_time);
+        //autoCompleteTextViewTime = inflater.inflate(R.layout.home, container, false).findViewById(R.id.auto_complete_time);
+        //textInputLayoutTime.setEnabled(false);
         return inflater.inflate(R.layout.home, container, false);
     }
 
@@ -128,9 +134,6 @@ public class HomeFragment extends Fragment {
                         }
                     });
                     materialDatePicker.show(activity.getSupportFragmentManager(), "tag");
-
-
-
 
                 }
             });
@@ -232,7 +235,11 @@ public class HomeFragment extends Fragment {
             autoCompleteTextViewTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    selectedTime = (String) adapterView.getItemAtPosition(i);
+                    if(selected_date.getText().toString().equals("Data")){
+                        Toast.makeText(activity, "Devi selezionare la data prima.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        selectedTime = (String) adapterView.getItemAtPosition(i);
+                    }
                 }
             });
 

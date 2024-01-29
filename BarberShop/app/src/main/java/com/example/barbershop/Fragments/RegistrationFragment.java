@@ -74,9 +74,11 @@ public class RegistrationFragment extends Fragment {
                         patternMatches(email.getText()) && psw.getText().length() >= 8) {
                             addViewModel.addProfile(new ProfileInformation(email.getText().toString(), psw.getText().toString(),
                                     name.getText().toString(), surname.getText().toString()));
-
+                            Utilities.setEmail(email.getText().toString());
+                            Utilities.setEmail(email.getText().toString());
+                            Toast.makeText(activity, "Account creato! Ora puoi eseguire il login.", Toast.LENGTH_SHORT).show();;
                             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                            builder.setMessage("Account creato! Vuoi loggarti?").setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            /*builder.setMessage("Account creato! Vuoi loggarti?").setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     Utilities.insertMainActivityFragment((AppCompatActivity) activity, new LoginFragment(), LoginFragment.class.getSimpleName());
@@ -91,7 +93,7 @@ public class RegistrationFragment extends Fragment {
                                         }
                                     })
                                     .create()
-                                    .show();
+                                    .show();*/
 
                             ((AppCompatActivity) activity).getSupportFragmentManager().popBackStack();
                         } else {
