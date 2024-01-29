@@ -1,7 +1,9 @@
 package com.example.barbershop.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -81,6 +83,13 @@ public class LoginFragment extends Fragment {
                                 if(profile != null && profile.getEmail().equals(email.getText().toString()) &&
                                 profile.getPassword().equals(psw.getText().toString())){
                                     Toast.makeText(activity, "Login eseguito con successo!", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences sharedPreferences = activity.getSharedPreferences("MY_PREF", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("email", profile.getEmail());
+                                    editor.putInt("id", profile.getId());
+                                    editor.putString("name", profile.getName());
+                                    editor.putString("surname", profile.getSurname());
+                                    editor.apply();
                                     found = true;
                                     Intent intent = new Intent(getContext(), HomeActivity.class);
                                     this.startActivity(intent);

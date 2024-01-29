@@ -71,7 +71,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="@string/select_service"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +86,8 @@
                 android:id="@+id/auto_complete_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"/>
+                android:inputType="none"
+                android:dropDownHeight="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

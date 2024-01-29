@@ -18,9 +18,13 @@ import com.example.barbershop.Fragments.MapFragment;
 import com.example.barbershop.Fragments.ProfileFragment;
 import com.example.barbershop.Fragments.RecensionFragment;
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.Service;
 import com.example.barbershop.ViewModel.AddViewModel;
+import com.example.barbershop.ViewModel.ListViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.List;
 
 import Utils.Utilities;
 
@@ -28,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
     private AddViewModel addViewModel;
+    private ListViewModel listViewModel;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,24 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         addViewModel = new ViewModelProvider(this).get(AddViewModel.class);
+        listViewModel = new ViewModelProvider(this).get(ListViewModel.class);
+
+        listViewModel.getServicesInfo().observe(this, services -> {
+            try {
+                if(services.size() == 0){
+                    addViewModel.addServices(new Service("Taglio barba", 30, 10));
+                    addViewModel.addServices(new Service("Taglio capelli", 60, 20));
+                    addViewModel.addServices(new Service("Taglio barba e capelli", 90, 25));
+                } else {
+                    System.out.println("Services != 0");
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        });
+
+
+
 
         AppCompatActivity activity = this;
         navigationView = findViewById(R.id.bottomAppBar);

@@ -22,4 +22,7 @@ public interface ServiceDAO {
     @Query("SELECT * FROM serviceT ORDER BY service_id DESC")
     LiveData<List<Service>> getAllServices() throws ParseException;
 
+    @Query("SELECT service_id FROM serviceT WHERE name = :name")
+    int getIDfromName(String name);
+
 }

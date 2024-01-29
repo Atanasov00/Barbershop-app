@@ -22,4 +22,8 @@ public interface ProfileInformationDAO {
     @Query("SELECT * FROM account ORDER BY account_id DESC")
     LiveData<List<ProfileInformation>> getAllProfilesCredentials() throws ParseException;
 
+    @Transaction
+    @Query("UPDATE account SET account_password = :newPassword WHERE account_id = :id")
+    void updatePassword(String newPassword, int id);
+
 }

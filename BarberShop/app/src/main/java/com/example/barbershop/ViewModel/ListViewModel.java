@@ -23,10 +23,12 @@ public class ListViewModel extends AndroidViewModel {
 
     public LiveData<List<Appointments>> appointmentsInfo;
 
+    ServiceRepository serviceRepository;
+
     public ListViewModel(@NonNull Application application) throws ParseException {
         super(application);
         ProfileInformationRepository repository = new ProfileInformationRepository(application);
-        ServiceRepository serviceRepository = new ServiceRepository(application);
+        this.serviceRepository = new ServiceRepository(application);
         AppointmentsRepository appointmentsRepository = new AppointmentsRepository(application);
         profilesInfo = repository.getProfileInformationList();
         servicesInfo = serviceRepository.getServiceList();
@@ -44,4 +46,9 @@ public class ListViewModel extends AndroidViewModel {
     public LiveData<List<Appointments>> getAppointmentsInfo() {
         return appointmentsInfo;
     }
+
+    public int getIDfromName(String name){
+        return serviceRepository.getIDfromName(name);
+    }
+
 }

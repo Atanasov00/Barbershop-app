@@ -35,4 +35,14 @@ public class ProfileInformationRepository {
             }
         });
     }
+
+    public void updatePassword(String newPassword, int id){
+        BarberShopDatabase.executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                profileInformationDAO.updatePassword(newPassword, id);
+            }
+        });
+    }
+
 }

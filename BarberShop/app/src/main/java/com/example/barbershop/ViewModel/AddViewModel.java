@@ -80,4 +80,8 @@ public class AddViewModel extends AndroidViewModel {
     public void addAppointment(Appointments appointment) {
         appointmentsRepository.addAppointment(appointment);
     }
+
+    public void updatePassword(String newPassword, int id) {
+        repository.updatePassword(newPassword, id);
+    }
 }
