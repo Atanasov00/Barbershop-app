@@ -1,5 +1,6 @@
 package Utils;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,13 +12,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.example.barbershop.Fragments.LoginFragment;
 import com.example.barbershop.R;
+import com.example.barbershop.Tables.Recension;
+import com.example.barbershop.ViewModel.ListViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utilities {
 
@@ -40,6 +51,7 @@ public class Utilities {
         return password;
     }
 
+    public static List<Recension> listRecension = new ArrayList<>();
     public static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public static void insertMainActivityFragment(AppCompatActivity activity, Fragment fragment, String tag){
@@ -89,5 +101,18 @@ public class Utilities {
         return bitmap;
     }
 
+    public static void setRecensionList(Activity activity){
+        ListViewModel listViewModel = new ViewModelProvider((ViewModelStoreOwner) activity).get(ListViewModel.class);
+        listViewModel.getRecensionInfo().observe((LifecycleOwner) activity, new Observer<List<Recension>>() {
+            @Override
+            public void onChanged(List<Recension> recensions) {
+                listRecension.addAll(recensions);
+            }
+        });
+    }
+
+    public static List<Recension> getRecensionList(){
+        return listRecension;
+    }
 
 }

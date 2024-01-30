@@ -63,13 +63,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        listViewModel.getRecensionInfo().observe(this, recensions -> {
-            if(recensions.size() == 1){
-                addViewModel.addRecension(new Recension(1,"29/01/2024", 3,
-                        "Descrizione di prova2", "ic_haircut4", "prova prova"));
-            }
-        });
 
+        Utilities.setRecensionList(this);
 
 
 

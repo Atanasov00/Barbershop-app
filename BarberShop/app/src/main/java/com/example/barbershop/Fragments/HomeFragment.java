@@ -1,7 +1,9 @@
 package com.example.barbershop.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.barbershop.R;
 import com.example.barbershop.Tables.Appointments;
@@ -31,6 +34,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -54,6 +59,7 @@ public class HomeFragment extends Fragment {
     //private TextInputLayout textInputLayoutTime;
 
     private ArrayAdapter<String> adapterItems;
+    FragmentActivity activity;
 
     private int userID;
     private String pickedDate;
@@ -76,7 +82,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FragmentActivity activity = getActivity();
+        activity = getActivity();
 
 
 
@@ -247,7 +253,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     try{
-                        if(pickedDate != null && selectedTime != null && selectedService != null){
+                        if(pickedDate != null && selectedTime != null && selectedService != null && checkDate(pickedDate)){
                             int id = 0;
                             if(selectedService.equals("Taglio barba")){
                                 id = 3;
@@ -257,18 +263,48 @@ public class HomeFragment extends Fragment {
                                 id = 1;
                             }
                             addViewModel.addAppointment(new Appointments(pickedDate, selectedTime, id, userID, 0));
+                            Toast.makeText(activity, "La prenotazione è avvenuta con successo! E' possibile visualizzarla nella sezione profilo.", Toast.LENGTH_SHORT).show();
+                            Utilities.insertHomeActivityFragment((AppCompatActivity) activity, new HomeFragment(), HomeFragment.class.getSimpleName());
                         } else {
-                            Toast.makeText(activity, "I dati non sono stati presi correttamente.", Toast.LENGTH_SHORT).show();
+                            if (!checkDate(pickedDate)){
+                                Toast.makeText(activity, "Non è possibile selezionare una data antecedente a quella attuale.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(activity, "I dati non sono stati presi correttamente. Inserisci tutti i campi", Toast.LENGTH_LONG).show();
+                            }
                         }
                     } catch (Exception e){
                         e.printStackTrace();
                     }
                 }
             });
-
-
         }
 
 
     }
+
+    public boolean checkDate(String stringDate){
+        LocalDate currentDate = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            currentDate = LocalDate.now();
+            int year = currentDate.getYear();
+            int month = currentDate.getMonthValue();
+            int day = currentDate.getDayOfMonth();
+        }
+
+
+        LocalDate date = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            date = LocalDate.parse(stringDate, formatter);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            if(date.compareTo(currentDate) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

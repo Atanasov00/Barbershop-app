@@ -1,6 +1,7 @@
 package com.example.barbershop.RecyclerView.Appointments;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
 
         if(appointment.getRecension() == 0){
             holder.review.setText("Inserisci");
-
+           holder.review.setPaintFlags(holder.review.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             holder.review.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

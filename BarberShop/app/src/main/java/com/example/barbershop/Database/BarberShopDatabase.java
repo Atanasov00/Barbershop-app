@@ -15,7 +15,7 @@ import com.example.barbershop.Tables.Service;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ProfileInformation.class, Appointments.class, Service.class, Recension.class}, version = 11)
+@Database(entities = {ProfileInformation.class, Appointments.class, Service.class, Recension.class}, version = 12)
 public abstract class BarberShopDatabase extends RoomDatabase {
 
     public abstract ProfileInformationDAO profileInformationDAO();

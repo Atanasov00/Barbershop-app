@@ -7,7 +7,8 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/placeDateAppointment"
@@ -44,7 +45,7 @@
         android:id="@+id/appCompatImageView3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="60dp"
         android:alpha="0.5"
         android:background="#585858" />
 

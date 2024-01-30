@@ -78,7 +78,12 @@ public class RecensionFragment extends Fragment implements OnItemListener {
         list.add(new CardItem("ic_haircut1", "Atanas Atanasov",
                 "Description", "24/01/2024", 5));*/
         final OnItemListener listener =  this;
-        adapter = new CardAdapter(listener, list, activity);
+        if(list.size() == 0){
+            adapter = new CardAdapter(listener, Utilities.getRecensionList(), activity);
+        } else {
+            adapter = new CardAdapter(listener, list, activity);
+        }
+
         recyclerView.setAdapter(adapter);
     }
 
@@ -87,7 +92,6 @@ public class RecensionFragment extends Fragment implements OnItemListener {
         Activity activity = getActivity();
         if (activity != null){
             Utilities.insertHomeActivityFragment((AppCompatActivity) activity, new DetailsFragment(), DetailsFragment.class.getSimpleName());
-
             listViewModel.setItemSelected(adapter.getItemSelected(position));
         }
     }

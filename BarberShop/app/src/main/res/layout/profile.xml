@@ -206,6 +206,7 @@
             android:id="@+id/columnNames"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/layoutProfile2">
 
@@ -243,7 +244,6 @@
             android:id="@+id/recycler_viewProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/appointments_layout"
             tools:itemCount="1"
