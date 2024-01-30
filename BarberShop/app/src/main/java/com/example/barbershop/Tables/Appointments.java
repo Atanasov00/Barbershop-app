@@ -35,12 +35,15 @@ public class Appointments {
     @ColumnInfo(name = "user_id")
     private final int user_id;
 
+    @ColumnInfo(name = "recension")
+    private int recension;
 
-    public Appointments(final String date, final String time, final int service_id, final int user_id){
+    public Appointments(final String date, final String time, final int service_id, final int user_id, final int recension){
         this.date = date;
         this.time = time;
         this.service_id = service_id;
         this.user_id = user_id;
+        this.recension = recension;
     }
 
     public int getId() {
@@ -65,5 +68,13 @@ public class Appointments {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getRecension() {
+        return recension;
+    }
+
+    public void setRecension(int recension) {
+        this.recension = recension;
     }
 }

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.barbershop.Fragments.AddReviewFragment;
 import com.example.barbershop.Fragments.HomeFragment;
 import com.example.barbershop.Fragments.MapFragment;
 import com.example.barbershop.Fragments.ProfileFragment;
@@ -86,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
                         return true;
                     case R.id.profile:
                         Utilities.insertHomeActivityFragment(activity, new ProfileFragment(), ProfileFragment.class.getSimpleName());
+                        //Utilities.insertHomeActivityFragment(activity, new AddReviewFragment(), AddReviewFragment.class.getSimpleName());
                         return true;
                     case R.id.mapItem:
                         Utilities.insertHomeActivityFragment(activity, new MapFragment(), MapFragment.class.getSimpleName());

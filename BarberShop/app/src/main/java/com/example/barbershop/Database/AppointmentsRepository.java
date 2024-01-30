@@ -49,4 +49,13 @@ public class AppointmentsRepository {
         });
         return appointmentsDateList;
     }
+
+    public void updateRecension(int value, int id){
+        BarberShopDatabase.executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                appointmentsDAO.updateRecension(value, id);
+            }
+        });
+    }
 }

@@ -2,7 +2,12 @@ package com.example.barbershop.RecyclerView;
 
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +24,8 @@ import com.example.barbershop.R;
 import com.example.barbershop.Tables.Recension;
 import com.example.barbershop.ViewModel.ListViewModel;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,10 +82,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
         Recension currentRecension = recensionsList.get(position);
         String imagePath = currentRecension.getImage();
 
-        if (imagePath.contains("ic_")){
+        /*if (imagePath.contains("ic_")){
             Drawable drawable = AppCompatResources.getDrawable(activity, activity.getResources()
                     .getIdentifier(imagePath, "drawable", activity.getPackageName()));
             holder.placeImageView.setImageDrawable(drawable);
+        }*/
+
+        Bitmap imageBitmap = getBitmapFromUri(activity, Uri.parse(currentRecension.getImage()));
+        if(imageBitmap != null) {
+            holder.placeImageView.setImageBitmap(imageBitmap);
         }
 
         holder.ratingBarView.setRating(currentRecension.getRating());
@@ -106,5 +118,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
     }
 
     public Recension getItemSelected(int position) { return recensionsList.get(position); }
+
+    public static Bitmap getBitmapFromUri(Context context, Uri uri) {
+        ContentResolver contentResolver = context.getContentResolver();
+        InputStream inputStream = null;
+        try {
+            inputStream = contentResolver.openInputStream(uri);
+            if (inputStream != null) {
+                return BitmapFactory.decodeStream(inputStream);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
 }

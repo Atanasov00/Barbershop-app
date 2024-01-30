@@ -93,4 +93,8 @@ public class AddViewModel extends AndroidViewModel {
     public void updatePassword(String newPassword, int id) {
         repository.updatePassword(newPassword, id);
     }
+
+    public void updateRecension(int value, int id) {
+        appointmentsRepository.updateRecension(value, id);
+    }
 }

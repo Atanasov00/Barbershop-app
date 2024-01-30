@@ -26,4 +26,7 @@ public interface AppointmentsDAO {
 
     @Query("SELECT * FROM appointment WHERE user_id = :userID ")
     LiveData<List<Appointments>> getUserAppointments(int userID);
+
+    @Query("UPDATE appointment SET recension = :value WHERE appointment_id = :id")
+    void updateRecension(int value, int id);
 }

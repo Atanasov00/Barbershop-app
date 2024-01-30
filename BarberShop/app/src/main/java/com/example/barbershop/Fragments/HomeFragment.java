@@ -256,7 +256,7 @@ public class HomeFragment extends Fragment {
                             } else if(selectedService.equals("Taglio barba e capelli")){
                                 id = 1;
                             }
-                            addViewModel.addAppointment(new Appointments(pickedDate, selectedTime, id, userID));
+                            addViewModel.addAppointment(new Appointments(pickedDate, selectedTime, id, userID, 0));
                         } else {
                             Toast.makeText(activity, "I dati non sono stati presi correttamente.", Toast.LENGTH_SHORT).show();
                         }

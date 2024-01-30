@@ -1,6 +1,9 @@
 package com.example.barbershop.Fragments;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -25,6 +28,9 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.example.barbershop.R;
 import com.example.barbershop.Tables.Recension;
 import com.example.barbershop.ViewModel.ListViewModel;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import Utils.Utilities;
 
@@ -74,12 +80,18 @@ public class DetailsFragment extends Fragment {
                     String image_path = recension.getImage();
                     System.out.println(image_path);
 
-                    int resourceId = getResources().getIdentifier(image_path, "drawable", activity.getPackageName());
+                    Bitmap imageBitmap = getBitmapFromUri(activity, Uri.parse(image_path));
+                    if(imageBitmap != null) {
+                        placeImage.setImageBitmap(imageBitmap);
+                    }
 
-                    if(resourceId != 0) {
+
+                    /*int resourceId = getResources().getIdentifier(image_path, "drawable", activity.getPackageName());
+
+                    /*if(resourceId != 0) {
                         Drawable drawable = getResources().getDrawable(resourceId);
                         placeImage.setImageDrawable(drawable);
-                    }
+                    }*/
 
                     /*if (image_path.contains("ic_")){
                         Drawable drawable = ResourcesCompat.getDrawable(activity.getResources(),
@@ -97,4 +109,27 @@ public class DetailsFragment extends Fragment {
 
         }
     }
+
+    public static Bitmap getBitmapFromUri(Context context, Uri uri) {
+        ContentResolver contentResolver = context.getContentResolver();
+        InputStream inputStream = null;
+        try {
+            inputStream = contentResolver.openInputStream(uri);
+            if (inputStream != null) {
+                return BitmapFactory.decodeStream(inputStream);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
 }
