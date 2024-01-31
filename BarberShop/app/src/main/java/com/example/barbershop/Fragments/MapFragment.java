@@ -120,8 +120,9 @@ public class MapFragment extends Fragment {
                             }
                         }
                     });
+            System.out.println("esecuzione");
             initializeLocation(activity);
-            requestingLocationUpdates = true;
+            //requestingLocationUpdates = true;
             //registerNetworkCallback(activity);
             startLocationUpdates(activity);
             this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(activity.getApplicationContext()),map);
@@ -209,7 +210,11 @@ public class MapFragment extends Fragment {
 
                 System.out.println(locationResult.getLastLocation().getLatitude() +"  " +locationResult.getLastLocation().getLongitude());
                 GeoPoint startPoint = new GeoPoint(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
+                LatLong endPosition = new LatLong(44.05057, 12.17742);
+                GeoPoint endPoint = new GeoPoint(endPosition.getLatitude(), endPosition.getLongitude());
                 mapController.setCenter(startPoint);
+                //mapController.setCenter(endPoint);
+
                 /*String text = location.getLatitude() + ", " + location.getLongitude();
                 placeTIET.setText(text);*/
 
@@ -236,12 +241,15 @@ public class MapFragment extends Fragment {
                     locationCallback,
                     Looper.getMainLooper());
         } else if (ActivityCompat
-                .shouldShowRequestPermissionRationale(activity, PERMISSION_REQUESTED)) {
+                .checkSelfPermission(activity, PERMISSION_REQUESTED) == PackageManager.PERMISSION_DENIED) {
             //permission denied before
-            showDialog(activity);
-        } else {
-            //ask for the permission
+            System.out.println("test 1");
+            //showDialog(activity);
             requestPermissionLauncher.launch(PERMISSION_REQUESTED);
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(activity, PERMISSION_REQUESTED)) {
+            //ask for the permission
+            System.out.println("test 2");
+            showDialog(activity);
         }
 
     }

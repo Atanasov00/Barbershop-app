@@ -77,6 +77,7 @@ public class DetailsFragment extends Fragment {
                     placeTextDate.setText(recension.getDate());
                     placeTextDescription.setText(recension.getDescription());
                     placeRating.setRating(recension.getRating());
+                    placeRating.setIsIndicator(true);
                     String image_path = recension.getImage();
                     System.out.println(image_path);
 

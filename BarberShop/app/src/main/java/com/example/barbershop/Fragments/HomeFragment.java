@@ -3,6 +3,8 @@ package com.example.barbershop.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -231,6 +233,20 @@ public class HomeFragment extends Fragment {
                 }
             });
 
+            autoCompleteTextViewService.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    Drawable endIcon = autoCompleteTextViewService.getCompoundDrawablesRelative()[2];
+                    if(endIcon != null) {
+                        if(b){
+                            endIcon.setColorFilter(getResources().getColor(R.color.brown_900), PorterDuff.Mode.SRC_IN);
+                        } else {
+                            endIcon.clearColorFilter();
+                        }
+                    }
+                }
+            });
+
 
 
 
@@ -277,6 +293,21 @@ public class HomeFragment extends Fragment {
                     }
                 }
             });
+
+            autoCompleteTextViewTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    Drawable endIcon = autoCompleteTextViewTime.getCompoundDrawablesRelative()[2];
+                    if(endIcon != null) {
+                        if(b){
+                            endIcon.setColorFilter(getResources().getColor(R.color.brown_900), PorterDuff.Mode.SRC_IN);
+                        } else {
+                            endIcon.clearColorFilter();
+                        }
+                    }
+                }
+            });
+
         }
 
 

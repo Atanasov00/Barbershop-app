@@ -93,6 +93,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
             holder.placeImageView.setImageBitmap(imageBitmap);
         }
 
+        holder.ratingBarView.setIsIndicator(true);
         holder.ratingBarView.setRating(currentRecension.getRating());
         holder.placeTextView.setText(currentRecension.getName());
         holder.dateTextView.setText(currentRecension.getDate());
