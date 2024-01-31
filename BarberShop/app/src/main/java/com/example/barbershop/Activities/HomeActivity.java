@@ -110,4 +110,5 @@ public class HomeActivity extends AppCompatActivity {
             addViewModel.setImageBitmap(imageBitmap);
         }
     }
+
 }

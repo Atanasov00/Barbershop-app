@@ -210,7 +210,7 @@
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/layoutProfile2">
 
-            <EditText
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -219,7 +219,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
 
-            <EditText
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -228,7 +228,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
 
-            <EditText
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

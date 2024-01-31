@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -80,6 +81,14 @@ public class DetailsFragment extends Fragment {
                     placeRating.setIsIndicator(true);
                     String image_path = recension.getImage();
                     System.out.println(image_path);
+
+                    int newWidthInPixels = 300;
+                    int newHeightInPixels = 300;
+
+                   placeImage.getLayoutParams().width = newWidthInPixels;
+                   placeImage.getLayoutParams().height = newHeightInPixels;
+                   placeImage.requestLayout();
+
 
                     Bitmap imageBitmap = getBitmapFromUri(activity, Uri.parse(image_path));
                     if(imageBitmap != null) {
