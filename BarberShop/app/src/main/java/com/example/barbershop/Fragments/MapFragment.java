@@ -57,6 +57,8 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -148,13 +150,24 @@ public class MapFragment extends Fragment {
                             endPoint != null && endPoint.getLatitude() != 0 && endPoint.getLongitude() != 0){
                         /*System.out.println("Latitude1" + startPoint.getLatitude() + " Longitude1" + startPoint.getLongitude() +
                                 " Latitude2" + endPoint.getLatitude() + " Longitude2" + endPoint.getLongitude());*/
-                        int distance = (int)calculateDistance(new LatLong(startPoint.getLatitude(), startPoint.getLongitude()), new LatLong(endPoint.getLatitude(), endPoint.getLongitude()));
+
+                        double distance = calculateDistance(new LatLong(startPoint.getLatitude(), startPoint.getLongitude()), new LatLong(endPoint.getLatitude(), endPoint.getLongitude()));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
                         // Imposta il titolo e il messaggio del dialog
                         builder.setTitle("Calcolo distanza");
-                        builder.setMessage("La distanza tra la posizione attuale e il barber shop indicato con il marker rosso è di circa: "+ distance +" metri.");
+
+                        if(distance >= 1000) {
+                            distance = convertToKm(distance);
+                            distance = troncaDecimali(distance, 2);
+                            builder.setMessage("La distanza tra la posizione attuale e il barber shop indicato con il marker rosso è di circa: "+ distance +" chilometri.");
+                        } else {
+                            distance = troncaDecimali(distance, 2);
+                            builder.setMessage("La distanza tra la posizione attuale e il barber shop indicato con il marker rosso è di circa: "+ distance +" metri.");
+                        }
+
+
 
                         // Aggiunge pulsanti al dialog
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -252,31 +265,17 @@ public class MapFragment extends Fragment {
                 //Update UI with the location data
                 Location location = locationResult.getLastLocation();
 
-                System.out.println(locationResult.getLastLocation().getLatitude() +"  " +locationResult.getLastLocation().getLongitude());
+                //System.out.println(locationResult.getLastLocation().getLatitude() +"  " +locationResult.getLastLocation().getLongitude());
                 startPoint = new GeoPoint(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 LatLong endPosition = new LatLong(44.05057, 12.17742);
                 endPoint = new GeoPoint(endPosition.getLatitude(), endPosition.getLongitude());
                 onVariablesUpdated(startPoint, endPoint);
                 addMarkers();
+
                 if(!setCenterSet){
                     mapController.setCenter(startPoint);
                     setCenterSet = true;
                 }
-
-                //mapController.setCenter(endPoint);
-
-                /*String text = location.getLatitude() + ", " + location.getLongitude();
-                placeTIET.setText(text);*/
-
-                /*if (isNetworkConnected) {
-                    sendVolleyRequest(String.valueOf(location.getLatitude()),
-                            String.valueOf(location.getLongitude()));
-
-                    requestingLocationUpdates = false;
-                    stopLocationUpdates();
-                } else {
-                    snackbar.show();
-                }*/
             }
         };
     }
@@ -403,7 +402,15 @@ public class MapFragment extends Fragment {
         map.invalidate();
     }
 
+    private double convertToKm(double distance) {
+        double chilometers = distance / 1000.0;
+        return chilometers;
+    }
 
-
+    private double troncaDecimali(double numero, int cifreDecimali) {
+        BigDecimal bigDecimal = new BigDecimal(numero);
+        bigDecimal = bigDecimal.setScale(cifreDecimali, RoundingMode.DOWN);
+        return bigDecimal.doubleValue();
+    }
 
 }
