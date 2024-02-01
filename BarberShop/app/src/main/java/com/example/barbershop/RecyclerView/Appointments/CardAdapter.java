@@ -84,7 +84,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
                             addViewModel.updateRecension(1, appointment.getId());
                             Utilities.insertHomeActivityFragment((AppCompatActivity) activity, new AddReviewFragment(), AddReviewFragment.class.getSimpleName());
                         } else {
-                            Toast.makeText(activity, "Non è possibile inserire la recensione di questa prenotazione.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Non è possibile inserire la recensione di un servizio prima ancora di riceverlo.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

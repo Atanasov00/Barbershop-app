@@ -154,7 +154,7 @@ public class MapFragment extends Fragment {
 
                         // Imposta il titolo e il messaggio del dialog
                         builder.setTitle("Calcolo distanza");
-                        builder.setMessage("La distanza tra la posizione attuale e il barber shop è di circa: "+ distance +" metri.");
+                        builder.setMessage("La distanza tra la posizione attuale e il barber shop indicato con il marker rosso è di circa: "+ distance +" metri.");
 
                         // Aggiunge pulsanti al dialog
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -310,11 +310,11 @@ public class MapFragment extends Fragment {
 
     private void showDialog(Activity activity) {
         new AlertDialog.Builder(activity)
-                .setMessage("Permission denied, but needed for gps functionality.")
+                .setMessage("Permesso negato, ma necessario per la funzionalità del gps.")
                 .setCancelable(false)
                 .setPositiveButton("OK", ((dialogInterface, i) ->
                         activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))))
-                .setNegativeButton("Cancel", ((dialogInterface, i) -> dialogInterface.cancel()))
+                .setNegativeButton("Cancella", ((dialogInterface, i) -> dialogInterface.cancel()))
                 .create()
                 .show();
     }
@@ -325,10 +325,15 @@ public class MapFragment extends Fragment {
         //if gps is off, show the alert message
         if (locationManager != null && !locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             new AlertDialog.Builder(activity)
-                    .setMessage("Your GPS is off, do you want to enable it?")
+                    .setMessage("Il gps è disattivato, vuoi abilitarlo?")
                     .setCancelable(false)
-                    .setPositiveButton("Yes", ((dialogInterface, i) ->
-                            activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))))
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            initializeLocation(activity);
+                        }
+                    })
                     .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.cancel())
                     .create()
                     .show();

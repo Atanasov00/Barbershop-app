@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment {
                         }
                     });
                     materialDatePicker.show(activity.getSupportFragmentManager(), "tag");
-
+                    pickedDate = selected_date.getText().toString();
                 }
             });
 
@@ -155,6 +155,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     pickedDate = selected_date.getText().toString();
+                    System.out.println("Print di: " + pickedDate);
                     listViewModel.getAppointmentsInfo().observe(activity, appointments -> {
                         try {
                             System.out.println("Data:"+ pickedDate);
@@ -189,6 +190,7 @@ public class HomeFragment extends Fragment {
                                         if(t.equals(appointment.getTime())){
                                             System.out.println("Orario trovato");
                                             freeTimes.remove(appointment.getTime());
+                                            break;
                                         }
                                     }
                                     System.out.println("Next: " + next);
@@ -212,13 +214,15 @@ public class HomeFragment extends Fragment {
                                     }
                                     for(String t: freeTimes){
                                         if(t.equals(appointment.getTime())){
-                                            System.out.println("Orario trovato");
+                                            System.out.println("Orario trovato taglio barba e capelli");
                                             freeTimes.remove(appointment.getTime());
+                                            break;
                                         }
                                     }
                                     System.out.println("Next=" + next + "|"+"Next2="+next2);
                                     freeTimes.remove(next);
                                     freeTimes.remove(next2);
+                                    System.out.println("La situazione di freeTimes è: " + freeTimes);
                                 }
                             }
 

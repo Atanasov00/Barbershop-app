@@ -92,7 +92,8 @@ public class DetailsFragment extends Fragment {
 
                     Bitmap imageBitmap = getBitmapFromUri(activity, Uri.parse(image_path));
                     if(imageBitmap != null) {
-                        placeImage.setImageBitmap(imageBitmap);
+                        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, 900, 900, true);
+                        placeImage.setImageBitmap(resizedBitmap);
                     }
 
 

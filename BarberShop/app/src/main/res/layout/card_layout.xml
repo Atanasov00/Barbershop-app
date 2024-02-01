@@ -31,7 +31,8 @@
             android:layout_height="wrap_content"
             android:text="Cognome Nome"
             android:layout_margin="3dp"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            style="@style/TEXT"/>
 
         <TextView
             android:id="@+id/date_textview"
@@ -39,7 +40,8 @@
             android:layout_height="wrap_content"
             android:text="Valutazione"
             android:layout_margin="3dp"
-            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"/>
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            style="@style/TEXT_DATE"/>
 
         <RatingBar
             android:id="@+id/ratingBar_Card"

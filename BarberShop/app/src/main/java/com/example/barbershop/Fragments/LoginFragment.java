@@ -71,10 +71,10 @@ public class LoginFragment extends Fragment {
             psw = view.findViewById(R.id.place_password);
 
 
-            if(Utilities.getEmail() != null && Utilities.getPassword() != null){
+            /*if(Utilities.getEmail() != null && Utilities.getPassword() != null){
                 email.setText(Utilities.getEmail());
                 psw.setText(Utilities.getPassword());
-            }
+            }*/
 
 
             view.findViewById(R.id.btnLogin).setOnClickListener(view1 -> {
