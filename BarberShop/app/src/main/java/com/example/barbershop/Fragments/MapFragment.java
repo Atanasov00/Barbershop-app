@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -22,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -49,6 +52,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -59,6 +64,7 @@ import Utils.Utilities;
 
 public class MapFragment extends Fragment {
 
+    private boolean setCenterSet = false;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
@@ -67,8 +73,8 @@ public class MapFragment extends Fragment {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     private MapView map = null;
 
-    private GeoPoint startPoint;
-    private GeoPoint endPoint;
+    private GeoPoint startPoint = null;
+    private GeoPoint endPoint = null;
     private IMapController mapController;
     private MyLocationNewOverlay mLocationOverlay;
     private boolean requestingLocationUpdates = false;
@@ -85,7 +91,9 @@ public class MapFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.map, container, false);
+        View view = inflater.inflate(R.layout.map, container, false);
+        view.findViewById(R.id.btnCompute).setEnabled(false);
+        return view;
     }
 
     @Override
@@ -100,7 +108,7 @@ public class MapFragment extends Fragment {
             map = (MapView) view.findViewById(R.id.map);
             map.setTileSource(TileSourceFactory.MAPNIK);
             mapController = map.getController();
-            mapController.setZoom(19.5);
+            mapController.setZoom(15.5);
 
 
 
@@ -136,14 +144,17 @@ public class MapFragment extends Fragment {
             view.findViewById(R.id.btnCompute).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(startPoint.getLatitude() != 0 && startPoint.getLongitude() != 0 && endPoint.getLatitude() != 0 && endPoint.getLongitude() != 0){
-                        double distance = calculateDistance(new LatLong(startPoint.getLatitude(), startPoint.getLongitude()), new LatLong(endPoint.getLatitude(), endPoint.getLongitude()));
+                    if(startPoint != null && startPoint.getLatitude() != 0 && startPoint.getLongitude() != 0 &&
+                            endPoint != null && endPoint.getLatitude() != 0 && endPoint.getLongitude() != 0){
+                        /*System.out.println("Latitude1" + startPoint.getLatitude() + " Longitude1" + startPoint.getLongitude() +
+                                " Latitude2" + endPoint.getLatitude() + " Longitude2" + endPoint.getLongitude());*/
+                        int distance = (int)calculateDistance(new LatLong(startPoint.getLatitude(), startPoint.getLongitude()), new LatLong(endPoint.getLatitude(), endPoint.getLongitude()));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
                         // Imposta il titolo e il messaggio del dialog
                         builder.setTitle("Calcolo distanza");
-                        builder.setMessage("La distanza tra la posizione attuale e il barber shop è di: "+ distance +" metri.");
+                        builder.setMessage("La distanza tra la posizione attuale e il barber shop è di circa: "+ distance +" metri.");
 
                         // Aggiunge pulsanti al dialog
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -245,7 +256,13 @@ public class MapFragment extends Fragment {
                 startPoint = new GeoPoint(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
                 LatLong endPosition = new LatLong(44.05057, 12.17742);
                 endPoint = new GeoPoint(endPosition.getLatitude(), endPosition.getLongitude());
-                mapController.setCenter(startPoint);
+                onVariablesUpdated(startPoint, endPoint);
+                addMarkers();
+                if(!setCenterSet){
+                    mapController.setCenter(startPoint);
+                    setCenterSet = true;
+                }
+
                 //mapController.setCenter(endPoint);
 
                 /*String text = location.getLatitude() + ", " + location.getLongitude();
@@ -341,4 +358,47 @@ public class MapFragment extends Fragment {
 
         return earthRadius * c;
     }
+
+    public void onVariablesUpdated(GeoPoint start, GeoPoint end){
+        if(start != null && end != null){
+            getView().findViewById(R.id.btnCompute).setEnabled(true);
+            getView().findViewById(R.id.btnCompute).setBackgroundColor(getResources().getColor(R.color.brown_900));
+        }
+    }
+
+    private void addMarkers() {
+        // Crea una lista di OverlayItem per i marker
+        ArrayList<OverlayItem> items = new ArrayList<>();
+        items.add(new OverlayItem("Marker 1", "Descrizione del Marker 1", new GeoPoint(44.05057, 12.17742)));
+        //items.add(new OverlayItem("Marker 2", "Descrizione del Marker 2", new GeoPoint(40.7120, -74.0070)));
+        //items.add(new OverlayItem("Marker 3", "Descrizione del Marker 3", new GeoPoint(40.7130, -74.0050)));
+
+        // Crea un overlay con i marker
+        ItemizedIconOverlay<OverlayItem> overlay = new ItemizedIconOverlay<>(items,
+                getResources().getDrawable(R.drawable.baseline_location_on_24), // Puoi utilizzare un'icona personalizzata
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    @Override
+                    public boolean onItemSingleTapUp(int index, OverlayItem item) {
+                        // Gestisci l'evento di tap su un marker
+                        // Puoi, ad esempio, aprire una finestra di informazioni
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onItemLongPress(int index, OverlayItem item) {
+                        // Gestisci l'evento di long press su un marker
+                        return false;
+                    }
+                }, getContext());
+
+        // Aggiungi l'overlay alla mappa
+        map.getOverlays().add(overlay);
+
+        // Aggiorna la mappa
+        map.invalidate();
+    }
+
+
+
+
 }

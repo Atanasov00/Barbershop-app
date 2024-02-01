@@ -82,12 +82,12 @@ public class DetailsFragment extends Fragment {
                     String image_path = recension.getImage();
                     System.out.println(image_path);
 
-                    int newWidthInPixels = 300;
+                    /*int newWidthInPixels = 300;
                     int newHeightInPixels = 300;
 
                    placeImage.getLayoutParams().width = newWidthInPixels;
                    placeImage.getLayoutParams().height = newHeightInPixels;
-                   placeImage.requestLayout();
+                   placeImage.requestLayout();*/
 
 
                     Bitmap imageBitmap = getBitmapFromUri(activity, Uri.parse(image_path));

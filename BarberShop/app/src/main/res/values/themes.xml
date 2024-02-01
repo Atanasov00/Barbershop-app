@@ -57,4 +57,9 @@
     </style>
 
 
+    <style name="DisabledButtonStyle">
+        <item name="android:backgroundTint">@color/disabledButtonColor</item>
+    </style>
+
+
 </resources>

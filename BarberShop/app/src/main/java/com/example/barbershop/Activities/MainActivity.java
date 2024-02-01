@@ -18,9 +18,9 @@ import Utils.Utilities;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean nightMode = false;
+    /*private boolean nightMode = false;
     private static final String PREFS_NAME = "MyPrefsFile";
-    private static final String NIGHT_MODE_KEY = "nightMode";
+    private static final String NIGHT_MODE_KEY = "nightMode";*/
 
 
     @Override
@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         //setSupportActionBar(findViewById(R.id.topAppBar));
-        nightMode = loadNightModeState();
+        //nightMode = loadNightModeState();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+    /*public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_app_bar, menu);
         return true;
     }
@@ -83,6 +83,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean loadNightModeState() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return prefs.getBoolean(NIGHT_MODE_KEY, false);
-    }
+    }*/
 
 }

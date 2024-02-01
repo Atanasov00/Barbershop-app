@@ -10,4 +10,6 @@
     <color name="red_100">#FF0000</color>
     <color name="brown_900">#BF7E19</color>
     <color name="lightGrey">#808080</color>
+    <color name="disabledButtonColor">#59BF7E19</color>
+
 </resources>
